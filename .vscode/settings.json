@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "random": "cpp",
-    "xlocale": "cpp"
+    "xlocale": "cpp",
+    "xiosbase": "cpp"
   }
 }
