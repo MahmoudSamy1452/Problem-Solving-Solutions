@@ -39,6 +39,7 @@
 // 0 <= src, dst, k < n
 // src != dst
 
+// Modified Dijkstra
 class Solution
 {
 public:
@@ -71,5 +72,43 @@ public:
       }
     }
     return -1;
+  }
+};
+
+// BFS
+class Solution
+{
+public:
+  int findCheapestPrice(int n, vector<vector<int>> &flights, int src, int dst, int k)
+  {
+    vector<vector<pair<int, int>>> adj(n);
+    vector<int> minDist(n, INT_MAX);
+    for (auto f : flights)
+    {
+      adj[f[0]].push_back({f[2], f[1]});
+    }
+    queue<vector<int>> pq;
+    pq.push({0, src, 0});
+    while (!pq.empty())
+    {
+      auto curr = pq.front();
+      int dist = curr[0];
+      int node = curr[1];
+      int step = curr[2];
+      pq.pop();
+      if (step > k + 1)
+        break;
+      minDist[node] = min(minDist[node], dist);
+      for (auto neighbours : adj[node])
+      {
+        if (dist + neighbours.first >= minDist[neighbours.second])
+          continue;
+        pq.push({dist + neighbours.first, neighbours.second, step + 1});
+      }
+    }
+    if (minDist[dst] == INT_MAX)
+      return -1;
+    else
+      return minDist[dst];
   }
 };
